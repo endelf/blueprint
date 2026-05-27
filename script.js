@@ -25,9 +25,8 @@ const revealEls = document.querySelectorAll(
 revealEls.forEach(el => el.classList.add('reveal'));
 
 const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
+  entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      // Stagger siblings
       const siblings = [...entry.target.parentElement.children];
       const idx = siblings.indexOf(entry.target);
       setTimeout(() => {
@@ -201,7 +200,6 @@ revealEls.forEach(el => revealObserver.observe(el));
       badge: 'v1.0 · WIN',
       url: 'https://github.com/endelf/blueprint/releases/download/exe2/installer_win.zip'
     },
-
     linux: {
       filename: 'Blueprint_v1.0_Linux.tar.gz',
       size: '~310 MB',
@@ -215,12 +213,10 @@ revealEls.forEach(el => revealObserver.observe(el));
 
   function updateUI() {
     const d = osData[currentOS];
-
     dlFilename.textContent = d.filename;
     dlSize.textContent = d.size;
     dlBadge.textContent = d.badge;
     reqOs.textContent = d.req;
-
     dlBtn.href = d.url;
   }
 
@@ -240,15 +236,20 @@ revealEls.forEach(el => revealObserver.observe(el));
     });
   });
 
+
   dlBtn.addEventListener('click', () => {
-    const originalHTML = dlBtn.innerHTML;
+    const savedHref = dlBtn.href;
+    const savedInnerHTML = dlBtn.innerHTML;
+
     dlBtn.style.background = 'var(--gold)';
     dlBtn.querySelector('.dl-btn-text').textContent = 'PREPARING...';
+
     setTimeout(() => {
       dlBtn.querySelector('.dl-btn-text').textContent = 'STARTING DOWNLOAD';
       setTimeout(() => {
-        dlBtn.innerHTML = originalHTML;
+        dlBtn.innerHTML = savedInnerHTML;
         dlBtn.style.background = '';
+        dlBtn.href = savedHref;
       }, 1500);
     }, 600);
   });
