@@ -207,7 +207,7 @@ revealEls.forEach(el => revealObserver.observe(el));
       size: '~310 MB',
       req: 'Ubuntu 20.04+ / Debian (64-bit)',
       badge: 'v1.0 · LINUX',
-      url: 'https://github.com/endelf/blueprint/releases/download/untagged-4c7963bbb7f2a177b594/installer.zip'
+      url: 'https://github.com/endelf/blueprint/releases/download/exe2/installer.zip'
     },
   };
 
