@@ -1,14 +1,8 @@
-/* ============================================================
-   BLUEPRINT — script.js
-   ============================================================ */
-
-/* ---- NAV scroll state ---- */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-/* ---- Smooth active nav link ---- */
 const sections = document.querySelectorAll('section[id], footer[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 const observer = new IntersectionObserver((entries) => {
@@ -25,7 +19,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { rootMargin: '-40% 0px -55% 0px' });
 sections.forEach(s => observer.observe(s));
 
-/* ---- Scroll reveal ---- */
 const revealEls = document.querySelectorAll(
   '.feature-card, .member-card, .tl-item, .game-layout, .download-box'
 );
@@ -46,9 +39,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 revealEls.forEach(el => revealObserver.observe(el));
 
-/* ============================================================
-   HERO CANVAS — blueprint grid + animated particles
-   ============================================================ */
 (function () {
   const canvas = document.getElementById('blueprint-canvas');
   if (!canvas) return;
@@ -65,7 +55,6 @@ revealEls.forEach(el => revealObserver.observe(el));
   const ORANGE = 'rgba(240,130,0,';
   const GRID   = 60;
 
-  // Particles
   const PARTICLE_COUNT = 40;
   const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
     x: Math.random(),
@@ -76,7 +65,6 @@ revealEls.forEach(el => revealObserver.observe(el));
     a: Math.random() * 0.5 + 0.1,
   }));
 
-  // Blueprint shapes (static decorations)
   const shapes = [
     { type: 'rect', x: 0.05, y: 0.1,  w: 0.15, h: 0.25, a: 0.04 },
     { type: 'rect', x: 0.82, y: 0.6,  w: 0.12, h: 0.18, a: 0.04 },
@@ -92,11 +80,9 @@ revealEls.forEach(el => revealObserver.observe(el));
     frame++;
     ctx.clearRect(0, 0, W, H);
 
-    // Dark base
     ctx.fillStyle = '#080604';
     ctx.fillRect(0, 0, W, H);
 
-    // ---- GRID ----
     ctx.strokeStyle = ORANGE + '0.07)';
     ctx.lineWidth = 1;
     for (let x = 0; x < W; x += GRID) {
@@ -106,20 +92,17 @@ revealEls.forEach(el => revealObserver.observe(el));
       ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
     }
 
-    // ---- Diagonal accent lines ----
     ctx.strokeStyle = ORANGE + '0.04)';
     ctx.lineWidth = 1;
     for (let i = -H; i < W + H; i += GRID * 6) {
       ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke();
     }
 
-    // ---- Blueprint shapes ----
     shapes.forEach(s => {
       ctx.strokeStyle = ORANGE + s.a + ')';
       ctx.lineWidth = 1;
       if (s.type === 'rect') {
         ctx.strokeRect(s.x * W, s.y * H, s.w * W, s.h * H);
-        // Corner ticks
         const x = s.x * W, y = s.y * H, w = s.w * W, h = s.h * H;
         const t = 8;
         ctx.beginPath();
@@ -142,7 +125,6 @@ revealEls.forEach(el => revealObserver.observe(el));
         const cx = s.x * W, cy = s.y * H, r = s.r * Math.min(W, H);
         ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
         ctx.beginPath(); ctx.arc(cx, cy, r * 0.55, 0, Math.PI * 2); ctx.stroke();
-        // crosshair
         ctx.beginPath();
         ctx.moveTo(cx - r * 1.3, cy); ctx.lineTo(cx - r * 0.6, cy);
         ctx.moveTo(cx + r * 0.6, cy); ctx.lineTo(cx + r * 1.3, cy);
@@ -152,7 +134,6 @@ revealEls.forEach(el => revealObserver.observe(el));
       }
     });
 
-    // ---- Animated scanning line ----
     const scanY = ((frame * 0.4) % (H + 80)) - 40;
     const scanGrad = ctx.createLinearGradient(0, scanY - 20, 0, scanY + 20);
     scanGrad.addColorStop(0,   'rgba(240,130,0,0)');
@@ -161,7 +142,6 @@ revealEls.forEach(el => revealObserver.observe(el));
     ctx.fillStyle = scanGrad;
     ctx.fillRect(0, scanY - 20, W, 40);
 
-    // ---- Particles ----
     particles.forEach(p => {
       p.x += p.vx;
       p.y += p.vy;
@@ -176,7 +156,6 @@ revealEls.forEach(el => revealObserver.observe(el));
       ctx.fill();
     });
 
-    // ---- Connection lines between nearby particles ----
     ctx.lineWidth = 0.5;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -193,7 +172,6 @@ revealEls.forEach(el => revealObserver.observe(el));
       }
     }
 
-    // Radial center glow
     const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, W * 0.5);
     grad.addColorStop(0,   'rgba(240,130,0,0.04)');
     grad.addColorStop(0.5, 'rgba(240,130,0,0.01)');
@@ -206,9 +184,6 @@ revealEls.forEach(el => revealObserver.observe(el));
   draw();
 })();
 
-/* ============================================================
-   DOWNLOAD SELECTOR
-   ============================================================ */
 (function () {
   const versionTabs = document.querySelectorAll('#version-tabs .sel-tab');
   const osTabs      = document.querySelectorAll('#os-tabs .sel-tab');
@@ -260,7 +235,6 @@ revealEls.forEach(el => revealObserver.observe(el));
   });
 
   dlBtn.addEventListener('click', () => {
-    // Simulate download feedback
     const originalHTML = dlBtn.innerHTML;
     dlBtn.style.background = 'var(--gold)';
     dlBtn.querySelector('.dl-btn-text').textContent = 'PREPARING...';
