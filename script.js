@@ -46,14 +46,14 @@ revealEls.forEach(el => revealObserver.observe(el));
 
   let W, H;
   function resize() {
-    W = canvas.width  = canvas.offsetWidth;
+    W = canvas.width = canvas.offsetWidth;
     H = canvas.height = canvas.offsetHeight;
   }
   resize();
   window.addEventListener('resize', resize);
 
   const ORANGE = 'rgba(240,130,0,';
-  const GRID   = 60;
+  const GRID = 60;
 
   const PARTICLE_COUNT = 40;
   const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
@@ -66,8 +66,8 @@ revealEls.forEach(el => revealObserver.observe(el));
   }));
 
   const shapes = [
-    { type: 'rect', x: 0.05, y: 0.1,  w: 0.15, h: 0.25, a: 0.04 },
-    { type: 'rect', x: 0.82, y: 0.6,  w: 0.12, h: 0.18, a: 0.04 },
+    { type: 'rect', x: 0.05, y: 0.1, w: 0.15, h: 0.25, a: 0.04 },
+    { type: 'rect', x: 0.82, y: 0.6, w: 0.12, h: 0.18, a: 0.04 },
     { type: 'cross', x: 0.7, y: 0.15, s: 0.04, a: 0.06 },
     { type: 'cross', x: 0.25, y: 0.8, s: 0.03, a: 0.05 },
     { type: 'circle', x: 0.88, y: 0.2, r: 0.06, a: 0.04 },
@@ -136,9 +136,9 @@ revealEls.forEach(el => revealObserver.observe(el));
 
     const scanY = ((frame * 0.4) % (H + 80)) - 40;
     const scanGrad = ctx.createLinearGradient(0, scanY - 20, 0, scanY + 20);
-    scanGrad.addColorStop(0,   'rgba(240,130,0,0)');
+    scanGrad.addColorStop(0, 'rgba(240,130,0,0)');
     scanGrad.addColorStop(0.5, 'rgba(240,130,0,0.07)');
-    scanGrad.addColorStop(1,   'rgba(240,130,0,0)');
+    scanGrad.addColorStop(1, 'rgba(240,130,0,0)');
     ctx.fillStyle = scanGrad;
     ctx.fillRect(0, scanY - 20, W, 40);
 
@@ -173,9 +173,9 @@ revealEls.forEach(el => revealObserver.observe(el));
     }
 
     const grad = ctx.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, W * 0.5);
-    grad.addColorStop(0,   'rgba(240,130,0,0.04)');
+    grad.addColorStop(0, 'rgba(240,130,0,0.04)');
     grad.addColorStop(0.5, 'rgba(240,130,0,0.01)');
-    grad.addColorStop(1,   'rgba(0,0,0,0)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
 
@@ -186,12 +186,12 @@ revealEls.forEach(el => revealObserver.observe(el));
 
 (function () {
   const versionTabs = document.querySelectorAll('#version-tabs .sel-tab');
-  const osTabs      = document.querySelectorAll('#os-tabs .sel-tab');
-  const dlFilename  = document.getElementById('dl-filename');
-  const dlSize      = document.getElementById('dl-size');
-  const dlBadge     = document.getElementById('dl-badge');
-  const reqOs       = document.getElementById('req-os');
-  const dlBtn       = document.getElementById('dl-btn');
+  const osTabs = document.querySelectorAll('#os-tabs .sel-tab');
+  const dlFilename = document.getElementById('dl-filename');
+  const dlSize = document.getElementById('dl-size');
+  const dlBadge = document.getElementById('dl-badge');
+  const reqOs = document.getElementById('req-os');
+  const dlBtn = document.getElementById('dl-btn');
 
   const osData = {
     windows: {
@@ -199,12 +199,15 @@ revealEls.forEach(el => revealObserver.observe(el));
       size: '~320 MB',
       req: 'Windows 10/11 (64-bit)',
       badge: 'v1.0 · WIN',
+      url: 'https://github.com/endelf/blueprint/releases/download/exe2/installer_win.zip'
     },
+
     linux: {
       filename: 'Blueprint_v1.0_Linux.tar.gz',
       size: '~310 MB',
       req: 'Ubuntu 20.04+ / Debian (64-bit)',
       badge: 'v1.0 · LINUX',
+      url: 'https://github.com/endelf/blueprint/releases/download/untagged-4c7963bbb7f2a177b594/installer.zip'
     },
   };
 
@@ -212,10 +215,13 @@ revealEls.forEach(el => revealObserver.observe(el));
 
   function updateUI() {
     const d = osData[currentOS];
+
     dlFilename.textContent = d.filename;
-    dlSize.textContent     = d.size;
-    dlBadge.textContent    = d.badge;
-    reqOs.textContent      = d.req;
+    dlSize.textContent = d.size;
+    dlBadge.textContent = d.badge;
+    reqOs.textContent = d.req;
+
+    dlBtn.href = d.url;
   }
 
   osTabs.forEach(tab => {
